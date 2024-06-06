@@ -2,24 +2,38 @@ import { Box, Button } from '@mui/material'
 import axios from 'axios'
 import React, { useState } from 'react'
 import Table from './Table'
-
+import './Apicall.css'
+import Post from './Post'
 
 const Apicall = () => {
     const [userData,setUserData] = useState<any>([])
-    const [print,setPrint] = useState<any>("")
+    const [print,setPrint] = useState<any>("");
+    const [posts,setPosts] = useState<any>([])
 
     const getApiData = () =>{
-        axios.get("https://jsonplaceholder.typicode.com/users")
+        axios.get("https://jsonplaceholder.typicode.com/comments")
         .then(res=>{console.log(res)
+          const uniquePosts = res.data.reduce((acc: any[], obj: { postId: any }) => {
+            if (!acc.includes(obj.postId)) {
+              acc.push(obj.postId);
+            }
+            return acc;
+          }, []);
+          setPosts([...uniquePosts]);
             setUserData([...res.data]);
-            setPrint("")
+            setPrint("");
         })
-        .catch(err => console.error(err))
+        .catch(err => console.error(err));
+        if(userData){
+
+         
+          
+        }
     }
 
 
     const postApiData = ()=>{
-      axios.post(`https://jsonplaceholder.typicode.com/todos`,{
+      axios.post(`https://jsonplaceholder.typicode.com/comments`,{
         userId:1,
         title:`new Title`,
         completed:true
@@ -33,7 +47,7 @@ const Apicall = () => {
       })
     }
     const putApiData = ()=>{
-      axios.put(`https://jsonplaceholder.typicode.com/todos/1`,{
+      axios.put(`https://jsonplaceholder.typicode.com/comments/2`,{
         userId:1,
         title:`New Title`,
         completed:false
@@ -48,7 +62,7 @@ const Apicall = () => {
     }
 
     const deleteApiData = ()=>{
-      axios.delete(`https://jsonplaceholder.typicode.com/todos/1`)
+      axios.delete(`https://jsonplaceholder.typicode.com/comments/1`)
       .then(res=>{
         console.log(res.data);
         setPrint('Delete Succes')
@@ -63,27 +77,29 @@ const Apicall = () => {
     return (
     <>
       <Box>
-        <h1>Api handling</h1>
+        <h1>Api handling for comments</h1>
 
         <Button sx={{margin:1,textTransform:"capitalize"}} onClick={getApiData} variant="contained">Get Data</Button>
-        <Button onClick={postApiData} sx={{margin:1,textTransform:"capitalize"}}  variant="contained">post Data</Button>
-        <Button onClick={putApiData} sx={{margin:1,textTransform:"capitalize"}}  variant="contained">put Data</Button>
-        <Button onClick={deleteApiData} sx={{margin:1,textTransform:"capitalize"}}  variant="contained">delete Data</Button>
       </Box>
-      {print && <div>{print}</div>}
-
-      {userData[0] && <Table dataList={userData} 
+        
+      {/* {userData[0] && <Table dataList={userData} 
         colList={[
+            {type:"text", key:"postId",label:"Post ID"},
             {type:"text", key:"id",label:"User ID"},
             {type:"text", key:"name",label:"User Name"},
             {type:"text", key:"email",label:"E-mail"},
-            {type:"text", key:"phone",label:"Phone Number"},
-            {type:"text", key:"website",label:"Website"},
+            {type:"text", key:"body",label:"Comment"},
             {type:"button",key:"", label:"",displayField:(row:any)=><Button variant="contained" onClick={()=>{
                 console.log(row);
                 
             }}>Delete</Button>}
-            ]}/>}
+            ]}/>} */}
+            <div className="flex">
+
+           {posts && posts.map((e:any,i:number)=><Post id={e}/>)}
+            </div>
+
+
     </>
   )
 }

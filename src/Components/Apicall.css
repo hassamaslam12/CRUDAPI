@@ -1,0 +1,50 @@
+.post .postID{
+    background-color: gray;
+    height: 300px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.spIMG{
+    width: 100%;
+    background-color: gray;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heading{
+    text-align: center;
+}
+
+.comment .id{
+    background-color: black;
+    width: 50px;
+    height: 50px;
+    color: white;
+    display: flex;
+    justify-content: center;align-items: center;
+    border-radius: 50%;
+}
+
+.aic{
+    align-items: center;
+}
+.comment{
+    margin: 10px;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: lightgray;
+}
+.btns{
+    padding: 10px;
+}
